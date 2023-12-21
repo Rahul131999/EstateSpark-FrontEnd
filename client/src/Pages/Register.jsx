@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 function Register() {
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({
@@ -16,26 +16,21 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
 
-    try{
-        const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL}/api/auth/register`,
-          form
-        );
-    }catch(err){
-        setLoading(false);
-        setError(err.response.data.message)
-        return
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/auth/register`,
+        form
+      );
+      setLoading(false);
+      setError(null);
+      navigate("/login");
+    } catch (err) {
+      setLoading(false);
+      setError(err.response.data.message);
     }
-
-    setLoading(false);
-
-    setError(null)
-    navigate('/login');
-
-    console.log(res.data);
   };
 
   return (
@@ -67,7 +62,7 @@ function Register() {
           id="password"
         />
         <button className="bg-slate-700 text-white p-3 rounded-lg hover:opacity-80 disabled:opacity-60">
-          {loading?"Loading...":"Submit"}
+          {loading ? "Loading..." : "Submit"}
         </button>
       </form>
       <div className="flex flex-row mt-7 gap-5">
