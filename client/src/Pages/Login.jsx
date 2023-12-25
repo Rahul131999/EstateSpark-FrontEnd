@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { loginFailure, loginStart, loginSuccess } from "../Redux/user/userSlice";
 
 function Login() {
   const [form, setForm] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const {loading, error} = useSelector((state)=>state.user);
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setForm({
@@ -16,7 +19,7 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    dispatch(loginStart())
     e.preventDefault();
 
     try {
@@ -24,12 +27,10 @@ function Login() {
         `${import.meta.env.VITE_BASE_URL}/api/auth/login`,
         form
       );
-      setLoading(false);
-      setError(null);
+      dispatch(loginSuccess(res.data))
       navigate("/");
     } catch (err) {
-      setLoading(false);
-      setError(err.response.data.message);
+      dispatch(loginFailure(err.response.data.message))
     }
   };
 
