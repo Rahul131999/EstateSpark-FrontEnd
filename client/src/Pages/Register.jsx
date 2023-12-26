@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../Components/OAuth";
 
 function Register() {
   const [form, setForm] = useState({});
@@ -64,6 +65,7 @@ function Register() {
         <button className="bg-slate-700 text-white p-3 rounded-lg hover:opacity-80 disabled:opacity-60">
           {loading ? "Loading..." : "Submit"}
         </button>
+        <OAuth/>
       </form>
       <div className="flex flex-row mt-7 gap-5">
         <p>Have an account ?</p>
